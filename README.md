@@ -19,7 +19,7 @@ File or Folder | Purpose
 2. open the terminal ```cds watch mtx\sidecar```
 3. open another terminal ```cds watch```
 4. open another terminal ```cds subscribe t1 --to http://localhost:4005 -u alice:```
-5. now open browser and trigger read request to Books should update the entity with ISBN String field and also insert data into Books entity
+5. now open the browser and trigger the read request ```http://localhost:4004/odata/v4/catalog/Books``` update the entity with ISBN String field and also insert data into Books entity
 
 
 
