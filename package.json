@@ -1,0 +1,60 @@
+{
+  "name": "mtxsexample",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap/cds": "7.4.2",
+    "@sap/cds-mtxs": "^1.13.3",
+    "express": "^4"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1"
+  },
+  "scripts": {
+    "start": "cds-serve"
+  },
+  "cds": {
+    "requires": {
+      "multitenancy": true,
+      "extensibility": true,
+      "cds.xt.DeploymentService":true,
+      "cds.xt.ExtensibilityService": {
+        "element-prefix": [
+          "x_",
+          "xx_"
+        ],
+        "namespace-blocklist": [
+          "com.sap.",
+          "sap."
+        ],
+        "extension-allowlist": [
+          {
+            "for": [
+              "my.bookshop"
+            ],
+            "kind": "entity",
+            "new-fields": 2
+          },
+          {
+            "for": [
+              "CatalogService"
+            ],
+            "new-entities": 2
+          }
+        ]
+      },
+      "toggles": true,
+      "auth": {
+        "users": {
+          "alice": {
+            "tenant": "t1"
+          }
+        }
+      }
+    },
+    "profile": "with-mtx-sidecar"
+  }
+}

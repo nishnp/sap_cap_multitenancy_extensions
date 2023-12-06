@@ -1,0 +1,12 @@
+{
+  "requires": {
+    "auth": {
+      "users": {
+        "bob": {
+          "tenant": "t1",
+          "roles": [ "cds.ExtensionDeveloper", "cds.UIFlexDeveloper" ]
+        }
+      }
+    }
+  }
+}
