@@ -1,60 +1,78 @@
 {
-  "name": "mtxsexample",
-  "version": "1.0.0",
-  "description": "A simple CAP project.",
-  "repository": "<Add your repository here>",
-  "license": "UNLICENSED",
-  "private": true,
-  "dependencies": {
-    "@sap/cds": "7.4.2",
-    "@sap/cds-mtxs": "^1.13.3",
-    "express": "^4"
-  },
-  "devDependencies": {
-    "@cap-js/sqlite": "^1"
-  },
-  "scripts": {
-    "start": "cds-serve"
-  },
-  "cds": {
-    "requires": {
-      "multitenancy": true,
-      "extensibility": true,
-      "cds.xt.DeploymentService":true,
-      "cds.xt.ExtensibilityService": {
-        "element-prefix": [
-          "x_",
-          "xx_"
-        ],
-        "namespace-blocklist": [
-          "com.sap.",
-          "sap."
-        ],
-        "extension-allowlist": [
-          {
-            "for": [
-              "my.bookshop"
-            ],
-            "kind": "entity",
-            "new-fields": 2
-          },
-          {
-            "for": [
-              "CatalogService"
-            ],
-            "new-entities": 2
-          }
-        ]
-      },
-      "toggles": true,
-      "auth": {
-        "users": {
-          "alice": {
-            "tenant": "t1"
-          }
-        }
-      }
+    "name": "mtxsexample",
+    "version": "1.0.0",
+    "description": "A simple CAP project.",
+    "repository": "<Add your repository here>",
+    "license": "UNLICENSED",
+    "private": true,
+    "dependencies": {
+        "@sap/cds": "7.9.2",
+        "@sap/cds-hana": "^2",
+        "@sap/cds-mtxs": "^1.18.1",
+        "@sap/xssec": "^3.6.1",
+        "express": "^4.19.2"
     },
-    "profile": "with-mtx-sidecar"
-  }
+    "devDependencies": {
+        "@cap-js/sqlite": "^1.7.2",
+        "@sap/cds-dk": "^7.9.4",
+        "@sap/ux-specification": "^1.120.13",
+        "rimraf": "^3.0.2"
+    },
+    "resolutions": {
+        "@sap/cds-compiler": "4.9.4"
+    },
+    "scripts": {
+        "start": "cds-serve",
+        "undeploy": "cf undeploy mtxsexample --delete-services --delete-service-keys --delete-service-brokers",
+        "build": "rimraf resources mta_archives && mbt build --mtar archive",
+        "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
+    },
+    "cds": {
+        "requires": {
+            "multitenancy": true,
+            "extensibility": true,
+            "cds.xt.DeploymentService": true,
+            "cds.xt.ExtensibilityService": {
+                "element-prefix": [
+                    "x_",
+                    "xx_"
+                ],
+                "namespace-blocklist": [
+                    "com.sap.",
+                    "sap."
+                ],
+                "extension-allowlist": [
+                    {
+                        "for": [
+                            "my.bookshop"
+                        ],
+                        "kind": "entity",
+                        "new-fields": 2
+                    },
+                    {
+                        "for": [
+                            "CatalogService"
+                        ],
+                        "new-entities": 2
+                    }
+                ]
+            },
+            "toggles": true,
+            "auth": {
+                "users": {
+                    "alice": {
+                        "tenant": "t1"
+                    }
+                }
+            },
+            "[production]": {
+                "auth": "xsuaa",
+                "db": "hana"
+            }
+        },
+        "profile": "with-mtx-sidecar"
+    },
+    "sapux": [
+        "app/books"
+    ]
 }
